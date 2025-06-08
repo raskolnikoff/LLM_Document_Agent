@@ -186,4 +186,9 @@ fabric.properties
 
 ## Misc
 .DS_Store
+docs/*.*
+store/index.faiss
+store/metadatas.pkl
+./.parsed_cache
+./.parsed_cache/*.*
 
