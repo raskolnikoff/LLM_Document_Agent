@@ -88,6 +88,7 @@ Place your `.pdf` or `.epub` files in the `docs/` directory.
 ---
 
 ## 🧠 Features
+
 - PDF & EPUB parsing with character-normalized filenames (NFKC-safe)
 - Automatic caching to avoid redundant re-parsing and re-embedding
 - SentenceTransformer embedding (`intfloat/multilingual-e5-base`)
@@ -97,11 +98,35 @@ Place your `.pdf` or `.epub` files in the `docs/` directory.
 
 ---
 
-## ✨ To Do
-- Incremental FAISS index update
-- Document citation + page context display
-- Dockerfile for cross-platform packaging
-- Full-text search integration
+## ✨ Planned Improvements
+
+### Functional Enhancements
+- ✅ Incremental FAISS index updates (avoid full reprocessing)
+- ✅ Handle multilingual filenames safely (Unicode normalization)
+- ✅ Display source chunks and citation in answers
+- 🔲 Upload documents via Streamlit UI
+- 🔲 Select which documents to include in search
+- 🔲 Better session & scroll handling in Web UI
+- 🔲 Prompt templates & chain-of-thought enhancement
+- 🔲 Option to switch between Ollama local LLM and OpenAI models
+
+### Codebase Architecture
+- 🔲 Clean up `PYTHONPATH` issues via modular packaging (`src/` style layout)
+- 🔲 Rename `utils` to avoid naming conflicts (`llm_parsers`, etc.)
+- 🔲 Move all logs and caches to dedicated folders (`.cache/`, `logs/`)
+- 🔲 Add basic `pytest` tests for parsing and querying flow
+- 🔲 Dockerize the app for easier deployment
+
+### Documentation & CI/CD
+- 🔲 Add license file (MIT/Apache2.0)
+- 🔲 Include usage examples, screenshots & animated GIF
+- 🔲 GitHub Actions for test/lint checks on push
+- 🔲 Add public demo via Streamlit Cloud (optional)
+
+### Future Features
+- 🔲 LangChain/LLamaIndex adapter layer for advanced agent behavior
+- 🔲 Chunk overlap tuning and top-k selection in UI/config
+- 🔲 Document-type icons or filters in UI
 
 ---
 
