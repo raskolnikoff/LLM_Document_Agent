@@ -1,6 +1,18 @@
 # 📚 Local LLM Document Agent
 
+A local-ready document QA system powered by Retrieval-Augmented Generation (RAG), Ollama, and Streamlit.
 This project is a local Retrieval-Augmented Generation (RAG) system that allows users to query personal PDF/EPUB documents using a local Large Language Model (LLM). It integrates document parsing, vector embedding, FAISS indexing, and a CLI/Streamlit Web UI powered by Ollama + llama3.
+
+## 🚀 Features
+
+- ✅ Local PDF/EPUB document parsing and semantic search
+- ✅ Fast LLM-based question answering using Llama3
+- ✅ Beautiful Streamlit UI with file selection and chunk source display
+- ✅ Fully offline, privacy-first design
+
+## 🖥️ Demo Screenshot
+
+![demo](./assets/screenshot_ui.png)
 
 ---
 
@@ -84,17 +96,6 @@ Place your `.pdf` or `.epub` files in the `docs/` directory.
 ### Ask questions
 - Web UI: Type natural questions like "Summarize this book" or "What did Miyazaki do in 1979?"
 - CLI: Same functionality via terminal
-
----
-
-## 🧠 Features
-
-- PDF & EPUB parsing with character-normalized filenames (NFKC-safe)
-- Automatic caching to avoid redundant re-parsing and re-embedding
-- SentenceTransformer embedding (`intfloat/multilingual-e5-base`)
-- FAISS vector index + metadata persistence
-- LLM queries via Ollama (`llama3`, switchable)
-- Streamlit Web UI or CLI interface
 
 ---
 
