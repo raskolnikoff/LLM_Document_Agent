@@ -1,30 +1,34 @@
+# ✅ Feature: Streamlit UI Improvements for Better UX
+# Includes: Loading Indicator, File Selection, Source Chunk Display
+
 import streamlit as st
-from llm_parsers.parsers import parse_file
+from llm_utils.indexer import load_metadatas, get_available_files
 from query.rag_chain import query_llm
 
-st.set_page_config(page_title="📚 Local LLM Document Agent", layout="wide")
-st.title("📚 Local LLM Document Agent")
+st.set_page_config(page_title="Document QA Agent", layout="centered")
+st.title("📚 Ask Questions to Your Documents")
 
-st.markdown("""
-This app reads PDF/EPUB files saved locally and uses vector search and local LLM to enable natural language question-answering.
-""")
+# --- File Selection Sidebar ---
+st.sidebar.header("📁 Document Settings")
+file_choices = get_available_files()
+selected_files = st.sidebar.multiselect("Select documents to search in:", file_choices, default=file_choices)
 
-uploaded_file = st.file_uploader("📤 Upload document (PDF/EPUB)", type=["pdf", "epub"])
+if not selected_files:
+    st.warning("Please select at least one document to search.")
+    st.stop()
 
-if uploaded_file is not None:
-    st.success(f"Upload complete: {uploaded_file.name}")
-    st.write("📖 Reading content and creating index...")
-    parse_result = parse_file(uploaded_file)
-    if parse_result:
-        st.success("✅ Document processing complete")
-    else:
-        st.error("❌ Failed to process document")
+# --- Question Input ---
+question = st.text_input("🔍 Ask your question:")
 
-st.markdown("---")
+# --- Loading State ---
+if question:
+    with st.spinner("Thinking..."):
+        answer, sources = query_llm(question, target_files=selected_files)
 
-query_text = st.text_input("💬 Please ask questions:")
-if query_text:
-    with st.spinner("💭 Generating response..."):
-        answer = query_llm(query_text)
-        st.write("### ✨ Answer")
+        st.markdown("### 🧠 Answer")
         st.write(answer)
+
+        if sources:
+            st.markdown("### 📖 Sources")
+            for src in sources:
+                st.markdown(f"- *{src['file']}*, page {src['page']}: {src['content']}")
