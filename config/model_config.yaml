@@ -1,3 +1,2 @@
-# LLMとEmbeddingモデルの設定
 llm_model: llama3
-embedding_model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+embedding_model: intfloat/multilingual-e5-base
