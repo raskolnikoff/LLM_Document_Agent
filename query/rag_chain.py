@@ -1,4 +1,3 @@
-# rag_chain.py
 """
 ベクトル検索とLLM応答
 """
@@ -8,7 +7,7 @@ import numpy as np
 import pickle
 import ollama
 
-MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+MODEL_NAME = "intfloat/multilingual-e5-base"
 LLM_MODEL = "llama3"
 
 with open("store/metadatas.pkl", "rb") as f:
@@ -22,7 +21,10 @@ def query_llm(question, top_k=5):
     D, I = index.search(np.array(q_emb), top_k)
     context = "\n".join([f"From {metadatas[i]['source']}: {i}" for i in I[0]])
     prompt = f"""
-You are a helpful assistant. Use the following context to answer:
+You are a helpful assistant. Only answer using the following context.
+If you don't know, say "Not available in the provided documents."
+
+Context:
 {context}
 
 Question: {question}

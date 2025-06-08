@@ -1,4 +1,3 @@
-# ollama_runner.py
 """
 Ollamaモデル起動確認とテスト実行
 """
