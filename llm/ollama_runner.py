@@ -1,5 +1,5 @@
 """
-Ollamaモデル起動確認とテスト実行
+Ollama model startup confirmation and test execution
 """
 import subprocess
 
