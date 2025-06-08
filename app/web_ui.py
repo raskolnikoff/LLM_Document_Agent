@@ -6,25 +6,25 @@ st.set_page_config(page_title="📚 Local LLM Document Agent", layout="wide")
 st.title("📚 Local LLM Document Agent")
 
 st.markdown("""
-このアプリは、ローカルに保存されたPDF/EPUBを読み込み、ベクトル検索とローカルLLMを用いて自然言語での質問応答を実現します。
+This app reads PDF/EPUB files saved locally and uses vector search and local LLM to enable natural language question-answering.
 """)
 
-uploaded_file = st.file_uploader("📤 ドキュメントをアップロード (PDF/EPUB)", type=["pdf", "epub"])
+uploaded_file = st.file_uploader("📤 Upload document (PDF/EPUB)", type=["pdf", "epub"])
 
 if uploaded_file is not None:
-    st.success(f"アップロード完了: {uploaded_file.name}")
-    st.write("📖 内容の読み取りとインデックス作成中...")
+    st.success(f"Upload complete: {uploaded_file.name}")
+    st.write("📖 Reading content and creating index...")
     parse_result = parse_file(uploaded_file)
     if parse_result:
-        st.success("✅ ドキュメント処理完了")
+        st.success("✅ Document processing complete")
     else:
-        st.error("❌ ドキュメントの処理に失敗しました")
+        st.error("❌ Failed to process document")
 
 st.markdown("---")
 
-query_text = st.text_input("💬 質問をどうぞ：")
+query_text = st.text_input("💬 Please ask questions:")
 if query_text:
-    with st.spinner("💭 応答生成中..."):
+    with st.spinner("💭 Generating response..."):
         answer = query_llm(query_text)
-        st.write("### ✨ 回答")
+        st.write("### ✨ Answer")
         st.write(answer)
