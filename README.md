@@ -35,7 +35,7 @@ ollama pull llama3
 ```bash
 # Step 1: Put PDFs/EPUBs into docs/
 # Step 2: Run full pipeline
-bash run_all.sh
+bash run_pipeline.sh
 
 # Step 3: Launch Web UI
 streamlit run app/web_ui.py
