@@ -2,7 +2,7 @@
 # Includes: Loading Indicator, File Selection, Source Chunk Display
 
 import streamlit as st
-from .llm_utils.indexer import load_metadatas, get_available_files
+from app.llm_utils.indexer import load_metadatas, get_available_files
 
 from query.rag_chain import query_llm
 
