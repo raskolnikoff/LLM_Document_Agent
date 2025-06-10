@@ -188,8 +188,8 @@ fabric.properties
 .DS_Store
 docs/*.epub
 docs/*.pdf
-store/index.faiss
-store/metadatas.pkl
+index.faiss
+metadatas.pkl
 ./.parsed_cache/
 ./.parsed_cache/*.*
 ./.parsed_cache/*.md5
