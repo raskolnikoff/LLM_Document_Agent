@@ -39,8 +39,8 @@ def split_and_embed(docs, chunk_size=1000, chunk_overlap=100):
     index.add(np.array(embeddings))
 
     os.makedirs("store", exist_ok=True)
-    faiss.write_index(index, "store/index.faiss")
-    with open("store/metadatas.pkl", "wb") as f:
+    faiss.write_index(index, "index.faiss")
+    with open("metadatas.pkl", "wb") as f:
         pickle.dump(metadatas, f)
 
     print(f"✅ Saved index with {len(texts)} chunks.")

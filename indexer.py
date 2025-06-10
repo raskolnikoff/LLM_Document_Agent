@@ -4,7 +4,7 @@
 import os
 import pickle
 
-def load_metadatas(metadata_path="store/metadatas.pkl"):
+def load_metadatas(metadata_path="metadatas.pkl"):
     """
     Load metadata from pickle file.
     """

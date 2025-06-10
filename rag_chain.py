@@ -17,10 +17,10 @@ if USE_OLLAMA:
 else:
     ollama = None
 
-with open("store/metadatas.pkl", "rb") as f:
+with open("metadatas.pkl", "rb") as f:
     metadatas = pickle.load(f)
 
-index = faiss.read_index("store/index.faiss")
+index = faiss.read_index("index.faiss")
 embedder = SentenceTransformer(MODEL_NAME)
 
 
