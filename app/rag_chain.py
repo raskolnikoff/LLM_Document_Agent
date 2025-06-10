@@ -3,18 +3,10 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 import pickle
-import ollama
 import os
 
 MODEL_NAME = "intfloat/multilingual-e5-base"
 LLM_MODEL = "llama3"
-
-with open("store/metadatas.pkl", "rb") as f:
-    metadatas = pickle.load(f)
-
-index = faiss.read_index("store/index.faiss")
-embedder = SentenceTransformer(MODEL_NAME)
-
 USE_OLLAMA = os.environ.get("USE_OLLAMA", "1") == "1"
 
 if USE_OLLAMA:
@@ -24,6 +16,13 @@ if USE_OLLAMA:
         ollama = None
 else:
     ollama = None
+
+with open("store/metadatas.pkl", "rb") as f:
+    metadatas = pickle.load(f)
+
+index = faiss.read_index("store/index.faiss")
+embedder = SentenceTransformer(MODEL_NAME)
+
 
 def query_llm(question, top_k=5, target_files=None):
     q_emb = embedder.encode([question])
