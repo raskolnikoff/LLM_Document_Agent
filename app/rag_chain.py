@@ -15,6 +15,16 @@ with open("store/metadatas.pkl", "rb") as f:
 index = faiss.read_index("store/index.faiss")
 embedder = SentenceTransformer(MODEL_NAME)
 
+USE_OLLAMA = os.environ.get("USE_OLLAMA", "1") == "1"
+
+if USE_OLLAMA:
+    try:
+        import ollama
+    except ImportError:
+        ollama = None
+else:
+    ollama = None
+
 def query_llm(question, top_k=5, target_files=None):
     q_emb = embedder.encode([question])
     D, I = index.search(np.array(q_emb), top_k)
@@ -29,6 +39,17 @@ def query_llm(question, top_k=5, target_files=None):
     context = "\n".join([
         f"From {m['source']}: chunk {i}" for i, m in filtered
     ])
+
+    if ollama:
+        # ローカルLLM (Ollama) の場合
+        response = ollama.chat(model="llama3", messages=[{"role": "user", "content": question}])
+        return response['message']['content'], []
+    else:
+        # Streamlit Cloud等、Ollama未使用時のダミー回答
+        return (
+            "Sorry, local LLM (Ollama) is not available on Streamlit Cloud.\n"
+            "Try this app locally with Ollama for full functionality!", []
+        )
 
     prompt = f"""
 You are a helpful assistant. Only answer using the following context.
