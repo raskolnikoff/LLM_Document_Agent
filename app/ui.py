@@ -1,7 +1,7 @@
 """
 Simple UI: CLI-based
 """
-from query.rag_chain import query_llm
+from rag_chain import query_llm
 
 if __name__ == "__main__":
     while True:

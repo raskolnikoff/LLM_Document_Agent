@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 
 import streamlit as st
 from indexer import load_metadatas, get_available_files
-from query.rag_chain import query_llm
+from rag_chain import query_llm
 
 st.set_page_config(page_title="Document QA Agent", layout="centered")
 st.title("📚 Ask Questions to Your Documents")
