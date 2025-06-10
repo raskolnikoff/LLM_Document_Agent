@@ -185,9 +185,41 @@ fabric.properties
 # .idea
 
 ## Misc
-.DS_Store
 docs/*.epub
-docs/*.pdf hi PDF
+docs/*.pdf
 ./.parsed_cache/
 ./.parsed_cache/*.*
 ./.parsed_cache/*.md5
+
+# Mac/Windows系自動生成ファイル
+.DS_Store
+Thumbs.db
+
+# Pythonキャッシュ
+__pycache__/
+*.pyc
+*.pyo
+
+# VSCode, JetBrains IDE, devcontainer用
+.vscode/
+.idea/
+.devcontainer/
+
+# キャッシュ・一時生成物
+.parsed_cache/
+store/parsed.pkl
+*.tmp
+*.log
+
+# Jupyter Notebookチェックポイント
+.ipynb_checkpoints/
+
+# テスト用・ローカル限定スクリプト
+test_*.py
+*_test.py
+
+# 個人の環境固有ファイル（設定・履歴・認証情報）
+.env
+*.env
+*.bak
+*.swp
