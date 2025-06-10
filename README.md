@@ -1,89 +1,95 @@
 # 📚 LLM Document Agent
 
-A fully local Retrieval-Augmented Generation (RAG) pipeline for answering complex questions from your personal document library using LLMs.
+[![Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://llmdocumentagent-fvhqjfvw3vc6mhgrmhdkdw.streamlit.app/)
+
+> The privacy-first, local-first AI assistant for your documents.
+> Query, summarize, and reason across your PDF/EPUB library – all on your machine.
+
+---
 
 ## 🚀 Features
 
-* ✅ Load and parse your PDF/EPUB documents with persistent cache
-* ✅ Semantic chunking and embedding via multilingual-e5-base
-* ✅ Fast retrieval powered by FAISS index
-* ✅ LLM-backed question answering using Ollama + Llama3
-* ✅ Elegant Streamlit UI with document selection and chunk citation
-* ✅ Shell-based full pipeline execution
-* ✅ Pythonic, extensible, and fully offline-ready
+- 🛡️ 100% offline document RAG (no data ever leaves your device)
+- 📚 Supports PDF/EPUB and rapid semantic vector search
+- 🤖 Local LLMs (Ollama, Llama3) or cloud/demo fallback (Streamlit Cloud)
+- ⚡ Lightning-fast QA for massive knowledge libraries
+- 🖥️ Beautiful UI with Streamlit ([Live Demo](https://llmdocumentagent-fvhqjfvw3vc6mhgrmhdkdw.streamlit.app/))
+- 🛠️ Easy to extend, hack, and deploy on any OS
 
-## 📦 Installation
+---
+
+## 🌟 Try it in your browser
+
+**[▶️ Live Streamlit Cloud Demo](https://llmdocumentagent-fvhqjfvw3vc6mhgrmhdkdw.streamlit.app/)**  
+*(Note: Demo disables local LLMs for security. Run locally for full power!)*
+
+---
+
+## ❓ Why LLM Document Agent?
+
+Most document Q&A tools require uploading your private files to third-party servers or depend on closed APIs.  
+**LLM Document Agent** is fully open-source, 100% offline-ready, and gives you back control over your knowledge and data.
+
+---
+
+## 📦 Quick Start
 
 ```bash
-# Setup environment
-conda create -n llm-rag python=3.9 -y
-conda activate llm-rag
-
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/LLM_Document_Agent.git
+# 1. Clone this repo
+git clone https://github.com/raskolnikoff/LLM_Document_Agent.git
 cd LLM_Document_Agent
 
-# Install dependencies
+# 2. Install requirements
 pip install -r requirements.txt
 
-# Pull Ollama model
-ollama pull llama3
-```
+# 3. Add your PDF/EPUB files into docs/
+# 4. Run the pipeline (to parse/index your files)
+python app/parser.py
+python app/chunk_embed.py
 
-## 🛠️ Usage
-
-```bash
-# Step 1: Put PDFs/EPUBs into docs/
-# Step 2: Run full pipeline
-bash run_pipeline.sh
-
-# Step 3: Launch Web UI
+# 5. Start the UI
 streamlit run app/web_ui.py
 ```
 
-## 🔍 Example Queries
+---
 
-* What is the main idea behind Walter Benjamin's theory of history?
-* How does Hayao Miyazaki reflect on 1984 in his essays?
-* According to the AWS Solutions Architect Guide, how is IAM configured?
-
-## 🧠 Architecture Overview
-
-1. `parser.py` – parses PDFs/EPUBs with filename-safe cache
-2. `chunk_embed.py` – splits, embeds, and builds FAISS index
-3. `rag_chain.py` – queries vector DB and constructs prompt
-4. `web_ui.py` – Streamlit-based frontend for interactive QA
-
-All components are connected via clean, modular interfaces.
-
-## 📸 Screenshot
-
-![Screenshot](./assets/screenshot_ui.png)
-
-## 📁 Directory Structure
+## 🗂️ Directory Structure (flat app/ example)
 
 ```
 LLM_Document_Agent/
 ├── app/
-│   └── web_ui.py
-├── ingest/
-│   ├── parser.py
-│   └── chunk_embed.py
-├── query/
-│   └── rag_chain.py
-├── llm_utils/
-│   └── indexer.py
+│   ├── web_ui.py
+│   ├── rag_chain.py
+│   ├── indexer.py
+│   ├── ...
 ├── docs/
-├── store/
-├── .parsed_cache/
+│   └── your-books.pdf
+├── index.faiss
+├── metadatas.pkl
 ├── requirements.txt
-└── README.md
+├── README.md
 ```
 
-## 🔐 License
+---
+
+## 🛠️ FAQ / Troubleshooting
+
+**Q. Why doesn't local LLM (Ollama) work on Streamlit Cloud?**  
+A. Cloud demos cannot run system-level LLMs for security; run locally for full features!
+
+**Q. I updated my docs – how do I refresh the index?**  
+A. Re-run the parser and embedder steps (`python app/parser.py && python app/chunk_embed.py`).
+
+**Q. Can I use with other LLM APIs (OpenAI, Anthropic)?**  
+A. Easily hackable – add your API calls to `rag_chain.py`.
+
+---
+
+## 📖 License
 
 MIT License
 
 ---
 
-> This repo was built to demonstrate how personal knowledge and logic reasoning can be enhanced locally using cutting-edge LLMs without leaking data to external servers.
+> Built with ❤️ in Japan.  
+> OSS contributions, feature requests, and issues welcome!
