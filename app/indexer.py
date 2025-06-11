@@ -4,6 +4,7 @@
 import os
 import pickle
 
+
 def load_metadatas(metadata_path="metadatas.pkl"):
     """
     Load metadata from pickle file.
@@ -12,6 +13,7 @@ def load_metadatas(metadata_path="metadatas.pkl"):
         return []
     with open(metadata_path, "rb") as f:
         return pickle.load(f)
+
 
 def get_available_files(parsed_cache_dir=".parsed_cache"):
     """

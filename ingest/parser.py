@@ -11,9 +11,11 @@ PARSED_OUTPUT = "store/parsed.pkl"
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
+
 # File name normalization function
 def normalize_filename(name):
     return unicodedata.normalize("NFKC", name)
+
 
 all_docs = []
 for filename in os.listdir(DOC_DIR):
