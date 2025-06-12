@@ -1,159 +1,145 @@
-# 📚 LLM Document Agent
 
-[![Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://llmdocumentagent-j7vpndghp2wayqvnfeo2ac.streamlit.app/)
+# LLM Document Agent (Docker Edition)
 
-> The privacy-first, open-source, local-first AI assistant for your documents.
-> Query, summarize, and reason across your PDF/EPUB library — all on your machine.
+## Overview
 
----
-
-### 🚀 Features
-
-* 🛡️ 100% offline document RAG (private, no cloud upload needed)
-* 📚 Supports both PDF & EPUB, with fast semantic vector search
-* 🤖 Local LLM support (Ollama, Llama3) — fallback to demo mode in Cloud
-* ⚡ Lightning-fast QA for massive libraries
-* 🖥️ Modern, responsive UI (Streamlit)
-* 🌍 Ready for OSS collaboration, extensible/hackable codebase
-* 🔗 [Live Demo](https://llmdocumentagent-j7vpndghp2wayqvnfeo2ac.streamlit.app/) using public domain books
+This project enables a **local, containerized LLM document Q&A agent** powered by [Ollama](https://ollama.com/) and [Gradio](https://gradio.app/).  
+The Docker setup provides a reproducible, easily deployable environment for running LLM-based Q&A via web UI.
 
 ---
 
-### 🌟 Try it instantly (no install)
+## Prerequisites
 
-**[▶️ Try Live Demo on Streamlit Cloud](https://llmdocumentagent-j7vpndghp2wayqvnfeo2ac.streamlit.app/)**
-*(Demo includes pre-indexed public domain books from [Project Gutenberg](https://www.gutenberg.org/). Local LLMs are disabled for security. Try locally for full power!)*
-
----
-
-### 📖 What makes LLM Document Agent different?
-
-Most doc Q\&A tools force you to upload private data to the cloud, or lock you into a closed AI API.
-**LLM Document Agent** is 100% offline, open-source, and puts *you* in control — your files, your server, your AI.
+- Docker Desktop (macOS/Windows/Linux)  
+- Docker Compose v2  
+- At least **16GB RAM** recommended for smooth LLM inference (minimum 8GB for small models)
+- (Optional, for dev) git, curl, bash
 
 ---
 
-### 📦 Quick Start (Local Use)
+## Project Structure
+
+```
+.
+├── app/
+│   └── gradio_ui.py
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
+├── README-dockerize.md   # ← This file!
+└── (other supporting files/folders)
+```
+
+---
+
+## Quick Start: Step-by-Step Setup
+
+### 1. Clone the Repository
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/raskolnikoff/LLM_Document_Agent.git
+git clone https://github.com/<your-repo>/LLM_Document_Agent.git
 cd LLM_Document_Agent
-
-# 2. Install requirements (Python 3.9+ recommended)
-pip install -r requirements.txt
-
-# 3. Add your PDF/EPUB files to docs/
-#    Or keep the sample public domain files for testing
-
-# 4. Build your vector index
-python app/parser.py
-python app/chunk_embed.py
-
-# 5. Launch the web UI
-streamlit run app/web_ui.py
-
-# 6. (Optional) To use Ollama/LLM locally, start Ollama server:
-ollama serve &
 ```
 
----
+### 2. Build and Launch the Containers
 
-### 🗂️ Directory Structure
-
-```
-LLM_Document_Agent/
-├── app/
-│   ├── web_ui.py
-│   ├── rag_chain.py
-│   ├── indexer.py
-│   └── ...
-├── docs/
-│   ├── frankenstein.epub
-│   ├── pride_and_prejudice.epub
-│   └── ... (other demo/public books)
-├── index.faiss
-├── metadatas.pkl
-├── requirements.txt
-├── README.md
-├── run_pipeline.sh
-└── .gitignore
+```bash
+docker compose up --build
+# or
+docker-compose up --build
 ```
 
-* `docs/` ... Place your PDFs/EPUBs here (demo branch includes public domain books)
-* `index.faiss`, `metadatas.pkl` ... Prebuilt vector index and metadata (auto-generated, included for demo)
+> This will start the following containers:
+> - `ollama` (LLM backend)
+> - `llm_gradio` (Gradio web UI frontend)
 
----
-## LLM\_Document\_Agent - Gradio Docker Demo
+### 3. Enter the Ollama Container to Download Your Model
 
-## ⚠️ Ollama Required
+Ollama **does NOT pull models automatically in Docker**.
+You must manually pull a model after the container starts.
 
-This app requires an Ollama server running locally or as a Docker service. For best results, use the provided `docker-compose.yml` setup below.
+```bash
+# List running containers to get ollama CONTAINER ID or use the service name 'ollama'
+docker ps
+docker exec -it ollama bash
+# Inside the ollama container, run:
+ollama pull llama3
+# You can replace "llama3" with any other available model
+```
 
-## 🐳 Docker Compose Quick Start
+### 4. (Re)Start the Gradio UI Container  
+(If you pulled the model after first launch, you may need to restart the UI for connectivity.)
 
-1. Clone the repository:
+```bash
+docker compose restart llm_gradio
+```
 
-   ```sh
-   git clone <repo-url>
-   cd LLM_Document_Agent
-   ```
-2. Build and run with Docker Compose:
+### 5. Access the Web UI
 
-   ```sh
-   docker-compose up --build
-   ```
-3. Access the demo UI at [http://localhost:7860](http://localhost:7860)
-
----
-
-## About This Demo
-
-* The Gradio UI is a minimal, cloud-friendly replacement for Streamlit (which can conflict with PyTorch in Docker).
-* All document Q\&A logic should be implemented in `app/gradio_ui.py`.
-* Ollama is managed as a service container and can be accessed by your QA logic.
-
----
-
-## Environment Variables
-
-* `OLLAMA_HOST` (default: `ollama`) — the internal Docker hostname for the Ollama service.
+Visit:  
+[http://localhost:7860](http://localhost:7860)  
+You should see the Gradio UI and be able to interact with the LLM!
 
 ---
 
-## Model Downloads
+## Known Issues / Troubleshooting
 
-For best performance, preload your desired LLM models in the Ollama container, or ensure your QA logic can download them on demand.
+- **HTTPConnectionPool/Timeout**  
+  If you see errors like `Read timed out` or HTTP 500, it's usually because:
+  - The model isn't pulled yet
+  - Ollama is still loading the model (wait, watch docker logs)
+  - Not enough memory: Increase Docker's RAM allocation to **16GB** or more
 
----
+- **Model Not Found**
+  - Run `ollama pull <model>` in the container before starting queries
 
-### 🛠️ FAQ / Troubleshooting
+- **Performance**  
+  - LLM inference on CPU is slow; for large models, prefer GPU machines (TBA for official Docker GPU support)
+  - For heavy traffic or production, consider a separate inference backend and autoscaling.
 
-**Q. Why doesn't Ollama/LLM work in the Cloud demo?**
-A. For security reasons, Streamlit Cloud disables local LLMs and external server calls.
-　→ Use local mode for full-power QA and private data analysis.
-
-**Q. I added/removed docs — how to refresh the search?**
-A. Run `python app/parser.py && python app/chunk_embed.py` to rebuild the index.
-
-**Q. I want to add OpenAI/Anthropic or other LLMs!**
-A. Codebase is modular — add your API logic in `app/rag_chain.py`.
-
-**Q. Error: No documents to select / nothing appears?**
-A. Confirm you have at least one valid `.pdf` or `.epub` in `docs/`, and that you rebuilt the index.
+- **Automatic Model Pull**  
+  - As of now, you *must* manually enter the ollama container to pull your desired model.
 
 ---
 
-### 🤝 Contributing
+## Roadmap & Anticipated Challenges
 
-Pull requests, issues, and ideas are super welcome!
-Let’s make privacy-first document AI accessible to all.
+### Short Term
+
+- [ ] **Automate ollama pull** in the Docker build/startup process
+    - Workaround: Provide an entrypoint or `command` in docker-compose, or use `init` scripts
+    - Issue: Ollama model pulls are large and can cause container timeouts or image bloat if done at build-time
+
+- [ ] **Streamlined Health Checks**  
+    - Add scripts to verify that both Ollama and Gradio are healthy and ready before accepting queries
+
+- [ ] **Parameterize Model via ENV**  
+    - Enable model selection via docker-compose `.env` file
+
+### Mid to Long Term
+
+- [ ] **Production-Ready Deployment**  
+    - Secure endpoints
+    - Reverse proxy support (nginx/caddy)
+    - GPU inference support (when supported by ollama in Docker)
+
+- [ ] **Documentation Improvements**  
+    - Step-by-step videos
+    - Advanced configuration tips (memory tuning, concurrency, etc.)
+
+- [ ] **Multi-backend Flexibility**  
+    - Support other LLM backends (LMStudio, vLLM, HuggingFace Text Generation Inference) as drop-in options
+
+- [ ] **User Feedback and Monitoring**  
+    - Add logging, stats dashboard
 
 ---
 
-### 📖 License
+## Contact & Contributions
 
-MIT License
+Pull Requests and Issues are welcome!  
+For questions or support, please open an issue on GitHub.
 
-> Built with ❤️ in Japan.
-> OSS contributions, feature requests, and issues welcome!
+---
+
+**(c) 2025 AiDevOps Project / [your team/org]**
