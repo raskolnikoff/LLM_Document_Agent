@@ -1,18 +1,7 @@
-streamlit
-sentence-transformers
-faiss-cpu
-EbookLib
-beautifulsoup4
-unstructured
-altair
-numpy
-pandas
-matplotlib
-scikit-learn
-tqdm
-lxml
-PyYAML
+gradio
 requests
-pypdf
-pdfminer.six
-# 以下は現状機能で必要なものだけ追記
+torch
+# Add below as needed for your LLM pipeline:
+# transformers
+# langchain
+# sentence-transformers

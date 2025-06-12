@@ -84,14 +84,46 @@ LLM_Document_Agent/
 * `index.faiss`, `metadatas.pkl` ... Prebuilt vector index and metadata (auto-generated, included for demo)
 
 ---
+## LLM\_Document\_Agent - Gradio Docker Demo
 
-### 🌍 About the Demo
+## ⚠️ Ollama Required
 
-This repo includes a “demo” branch preloaded with [Project Gutenberg](https://www.gutenberg.org/) public domain books (no copyright restrictions).
-**You can try the web app instantly on Streamlit Cloud, with no setup — just open [the demo link](https://llmdocumentagent-j7vpndghp2wayqvnfeo2ac.streamlit.app/)!**
+This app requires an Ollama server running locally or as a Docker service. For best results, use the provided `docker-compose.yml` setup below.
 
-* All demo books are legal to redistribute and analyze for OSS/AI purposes.
-* For your private docs, use the “main” branch locally for full privacy & LLM power.
+## 🐳 Docker Compose Quick Start
+
+1. Clone the repository:
+
+   ```sh
+   git clone <repo-url>
+   cd LLM_Document_Agent
+   ```
+2. Build and run with Docker Compose:
+
+   ```sh
+   docker-compose up --build
+   ```
+3. Access the demo UI at [http://localhost:7860](http://localhost:7860)
+
+---
+
+## About This Demo
+
+* The Gradio UI is a minimal, cloud-friendly replacement for Streamlit (which can conflict with PyTorch in Docker).
+* All document Q\&A logic should be implemented in `app/gradio_ui.py`.
+* Ollama is managed as a service container and can be accessed by your QA logic.
+
+---
+
+## Environment Variables
+
+* `OLLAMA_HOST` (default: `ollama`) — the internal Docker hostname for the Ollama service.
+
+---
+
+## Model Downloads
+
+For best performance, preload your desired LLM models in the Ollama container, or ensure your QA logic can download them on demand.
 
 ---
 
