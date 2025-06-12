@@ -11,6 +11,8 @@ from rag_chain import query_llm
 
 st.set_page_config(page_title="Document QA Agent", layout="centered")
 st.title("📚 Ask Questions to Your Documents")
+st.warning(
+    '⚠️ Ollama (local LLM) cannot run on this demo environment. Please run `ollama serve` locally before launching this app.')
 
 # --- File Selection Sidebar ---
 st.sidebar.header("📁 Document Settings")
