@@ -187,9 +187,10 @@ fabric.properties
 ## Misc
 docs/*.epub
 docs/*.pdf
-./.parsed_cache/
-./.parsed_cache/*.*
-./.parsed_cache/*.md5
+.parsed_cache/
+.parsed_store/
+#./.parsed_cache/*.*
+#./.parsed_cache/*.md5
 
 # Mac/Windows系自動生成ファイル
 .DS_Store

@@ -1,0 +1,3 @@
+[server]
+folderWatchBlacklist = ["store", "models", "."]
+runOnSave = false

@@ -2,6 +2,7 @@
 from ebooklib import epub, ITEM_DOCUMENT
 from bs4 import BeautifulSoup
 
+
 def extract_epub_text(epub_path):
     book = epub.read_epub(epub_path)
     texts = []
