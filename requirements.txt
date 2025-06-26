@@ -1,7 +1,10 @@
-gradio
+# gradio
 requests
 torch
 # Add below as needed for your LLM pipeline:
 # transformers
 # langchain
-# sentence-transformers
+sentence-transformers
+streamlit>=1.25.0
+faiss-cpu
+ollama
