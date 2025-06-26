@@ -43,7 +43,11 @@ class LLMBackend:
                 "Try this app locally with Ollama for full functionality!"
             )
         else:
-            return "Backend not implemented!"
+            return (
+                "The backend LLM is not available or misconfigured. "
+                "If you are running locally, please ensure Ollama is installed and running. "
+                "If you are on Streamlit Cloud or a non-local environment, full answer generation is disabled."
+            )
 
 
 # ---- 既存処理 ----
